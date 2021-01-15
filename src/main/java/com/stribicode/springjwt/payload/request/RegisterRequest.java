@@ -6,7 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.stribicode.springjwt.model.Role;
 
 public class RegisterRequest {
 	
@@ -15,8 +14,8 @@ public class RegisterRequest {
 	private String fullName;
 	
 	@NotBlank
+	@Size(max = 120)
 	@Email
-	@Size(max = 50)
 	private String username;
 	
 	@NotBlank
@@ -24,7 +23,7 @@ public class RegisterRequest {
 	private String password;
 	
 	
-	private Set<Role> role;
+	private Set<String> role;
 
 	public String getUsername() {
 		return username;
@@ -50,11 +49,11 @@ public class RegisterRequest {
 		this.fullName = fullName;
 	}
 
-	public Set<Role> getRole() {
+	public Set<String> getRole() {
 		return role;
 	}
 
-	public void setRole(Set<Role> role) {
+	public void setRole(Set<String> role) {
 		this.role = role;
 	}
 	

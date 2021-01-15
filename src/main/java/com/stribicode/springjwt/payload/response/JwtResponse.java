@@ -47,7 +47,7 @@ public class JwtResponse {
 		return fullName;
 	}
 
-	public void setFullName(String fullName) {
+	public void setEmail(String fullName) {
 		this.fullName = fullName;
 	}
 

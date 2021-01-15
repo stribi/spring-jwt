@@ -17,9 +17,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
-// generate a JWT from username, date, expiration, secret
-// get username from JWT
-// validate JWT
 
 @Component
 public class JwtUtils {
@@ -32,28 +29,28 @@ public class JwtUtils {
 	@Value("${stribicode.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 	
+
 	public String generateJwtToken(Authentication authentication) {
-		
+
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-		
+
 		return Jwts.builder()
-				.setSubject(userPrincipal.getUsername())
+				.setSubject((userPrincipal.getUsername()))
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
-	
-	public String getUsernameFromJwtToken(String token) {
+
+	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
-	
+
 	public boolean validateJwtToken(String authToken) {
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
 			return true;
-			
-		}catch (SignatureException e) {
+		} catch (SignatureException e) {
 			logger.error("Invalid JWT signature: {}", e.getMessage());
 		} catch (MalformedJwtException e) {
 			logger.error("Invalid JWT token: {}", e.getMessage());
